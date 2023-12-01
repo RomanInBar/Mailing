@@ -27,7 +27,7 @@ jobs:
           ls
     - name: Checking with flake8
       run: |
-        flake8 --ignore='F821' --per_file_ignores='main.py:F401 ./tests/conftest.py:E402'
+        flake8 --ignore='F821' --per-file-ignores='main.py:F401 tests/conftest.py:E402'
     - name: Running tests
       run: |
         uvicorn main:app --reload
