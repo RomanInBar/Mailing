@@ -25,6 +25,9 @@ jobs:
     - name: WHO I AM
       run: |
         pwd
+    - name: I NEED LS
+      run: |
+        ls
     - name: Checking with flake8
       run: |
         flake8 .
