@@ -13,9 +13,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      MODE: ${{ secrets.MODE }}
-      DRIVER: ${{ secrets.DRIVER }}
-      DB_NAME: ${{ secrets.DB_NAME }}
+      MODE: TEST
+      DRIVER: sqlite+aiosqlite
+      DB_NAME: test.db
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
