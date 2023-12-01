@@ -1,23 +1,29 @@
-from sqlalchemy import UniqueConstraint, ForeignKey
-from sqlalchemy.orm import relationship, Mapped, mapped_column
-from database.engine import Base
 import enum
 
-from utils.dependencies import pk, current, update
+from sqlalchemy import ForeignKey, UniqueConstraint
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from database.engine import Base
+from utils.dependencies import current, pk
 
 
 class Status(enum.Enum):
-    passed = 'PASSED',
-    failed = 'FAILED'
+    passed = "PASSED"
+    failed = "FAILED"
 
 
 class MailingORM(Base):
-    __tablename__ = 'mailings'
+    __tablename__ = "mailings"
     id: Mapped[pk]
     start: Mapped[current]
     message: Mapped[str]
     create_at: Mapped[current]
-    tags_of_mailing: Mapped[list['TagORM']] = relationship(secondary='mailing_tag', back_populates='mailings_of_tag', uselist=True, lazy='selectin')
+    tags_of_mailing: Mapped[list["TagORM"]] = relationship(
+        secondary="mailing_tag",
+        back_populates="mailings_of_tag",
+        uselist=True,
+        lazy="selectin",
+    )
 
     def append_tag(self, tag):
         self.tags_of_mailing.append(tag)
@@ -27,21 +33,25 @@ class MailingORM(Base):
 
 
 class MessageORM(Base):
-    __tablename__ = 'messages'
+    __tablename__ = "messages"
     id: Mapped[pk]
-    mailing_id: Mapped[int] = mapped_column(ForeignKey('mailings.id', ondelete='SET NULL'))
-    client_id: Mapped[int] = mapped_column(ForeignKey('clients.id', ondelete='SET NULL'))
+    mailing_id: Mapped[int] = mapped_column(
+        ForeignKey("mailings.id", ondelete="SET NULL")
+    )
+    client_id: Mapped[int] = mapped_column(
+        ForeignKey("clients.id", ondelete="SET NULL")
+    )
     send_at: Mapped[current]
-    status: Mapped['Status']
+    status: Mapped["Status"]
 
 
 class MailingTagORM(Base):
-    __tablename__ = 'mailing_tag'
+    __tablename__ = "mailing_tag"
     id: Mapped[pk]
-    obj_id: Mapped[int] = mapped_column(ForeignKey('mailings.id', ondelete='CASCADE'))
-    tag_id: Mapped[int] = mapped_column(ForeignKey('tags.id', ondelete='CASCADE'))
-    UniqueConstraint(
-        'mailing_id',
-        'tag_id',
-        name='unique_mailing_tag'
+    obj_id: Mapped[int] = mapped_column(
+        ForeignKey("mailings.id", ondelete="CASCADE")
     )
+    tag_id: Mapped[int] = mapped_column(
+        ForeignKey("tags.id", ondelete="CASCADE")
+    )
+    UniqueConstraint("mailing_id", "tag_id", name="unique_mailing_tag")

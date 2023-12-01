@@ -1,18 +1,19 @@
-"""upgraded mapping types utc_now and update_at, datetime.utcnow -> datetime.now(timezone.utc)
+"""basa
 
-Revision ID: 14a15097da2a
-Revises: 00a717987cd3
-Create Date: 2023-11-13 16:55:17.960084
+Revision ID: c9c8d61c4e89
+Revises: e2bdf217b5cd
+Create Date: 2023-11-30 20:37:25.730738
 
 """
 from typing import Sequence, Union
 
-import sqlalchemy as sa
 from alembic import op
+import sqlalchemy as sa
+
 
 # revision identifiers, used by Alembic.
-revision: str = "14a15097da2a"
-down_revision: Union[str, None] = "00a717987cd3"
+revision: str = 'c9c8d61c4e89'
+down_revision: Union[str, None] = 'e2bdf217b5cd'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 

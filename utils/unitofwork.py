@@ -1,20 +1,21 @@
 from abc import ABC, abstractmethod
-from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Type
 
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from database.engine import async_session_maker
-from utils.manager import ABCObjectManager, ObjectManager
-from utils.repositories import TagRepository, Repository
+from utils.manager import ABCObjectManager
+from utils.repositories import Repository, TagRepository
 
 
 class ABCUnitOfWork(ABC):
     objects: Type[ABCObjectManager]
     tags: Type[ABCObjectManager]
-    
+
     @abstractmethod
     def __init__(self):
         ...
-    
+
     @abstractmethod
     def __aenter__(self):
         ...
@@ -46,7 +47,7 @@ class UnitOfWork(ABCUnitOfWork):
         self.objects = Repository(self.session)
         self.objects.model = self.model
         self.tags = TagRepository(self.session)
-        
+
     async def __aexit__(self, *args):
         await self.session.close()
 
@@ -55,7 +56,7 @@ class UnitOfWork(ABCUnitOfWork):
 
     async def rollback(self):
         await self.session.rollback()
-    
+
     async def add(self, obj):
         await self.session.add(obj)
 

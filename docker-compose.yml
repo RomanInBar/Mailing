@@ -1,0 +1,40 @@
+version: '3.7'
+services:
+  db:
+    image: postgres:15.0
+    container_name: mailing_db
+    restart: always
+    command: -p 1221
+    expose:
+      - 1221
+    env_file:
+      - .dev.env
+
+  redis:
+    image: redis:7
+    container_name: mailing_redis
+    env_file:
+      - .dev.env
+
+  app:
+    build:
+      context: .
+    container_name: mailing_backend
+    env_file:
+      - .dev.env
+    command: ['/mailing/docker/app.sh']
+    ports:
+      - 8080:8000
+    depends_on:
+      - db
+      - redis
+
+  celery:
+    build:
+      context: .
+    container_name: mailing_celery
+    command: ['/mailing/docker/celery.sh']
+    env_file:
+      - .dev.env
+    depends_on:
+      - redis

@@ -1,40 +1,43 @@
-from sqlalchemy import select, insert, update, delete, func
-from sqlalchemy.ext.asyncio import AsyncSession
-from typing import Union, ClassVar
-from sqlalchemy.exc import NoResultFound
 from abc import ABC, abstractclassmethod
+
+from sqlalchemy import delete, func, insert, select, update
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class ABCObjectManager(ABC):
     @abstractclassmethod
     async def get(self, **kwargs):
         ...
+
     @abstractclassmethod
     async def all(self):
         ...
+
     @abstractclassmethod
     async def create(self, **kwargs):
         ...
+
     @abstractclassmethod
     async def update(self, obj_id, **kwargs):
         ...
+
     @abstractclassmethod
     async def delete(self, **kwargs):
         ...
+
     @abstractclassmethod
     async def get_or_create(self, **kwargs):
         ...
+
     @abstractclassmethod
     async def count(self):
         ...
-    
 
 
 class ObjectManager(ABCObjectManager):
-    
     def __init__(self, session: AsyncSession):
         self.session = session
-    
+
     async def get(self, **kwargs):
         """
         Возвращает объект таблицы.
@@ -68,20 +71,24 @@ class ObjectManager(ABCObjectManager):
         """
         Обновляет данные объекта.
         Возвращает объект при успешнои обновлении и None
-        при откате. 
+        при откате.
         Не сохраняет изменения в базе данных.
         filter: dict -  Данные для поиска объекта (id=1 | name='Roman')
         kwargs: Новые данные.
         """
-        stmt = update(self.model).filter_by(id=obj_id).values(**kwargs).returning(self.model)
+        stmt = (
+            update(self.model)
+            .filter_by(id=obj_id)
+            .values(**kwargs)
+            .returning(self.model)
+        )
         result = await self.session.execute(stmt)
         return result.scalar_one_or_none()
-            
 
     async def delete(self, **kwargs):
         """
         Удаляет объект из таблицы.
-        Возвращает True при успешнои удалении и False 
+        Возвращает True при успешнои удалении и False
         при откате.
         Не сохраняет изменения в базе данных.
         kwargs: Данные для поиска объекта

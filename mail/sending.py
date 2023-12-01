@@ -1,27 +1,38 @@
-from smtplib import SMTP_SSL
-from email.mime.text import MIMEText
+import os
+import smtplib
+from email.message import EmailMessage
 
-from celery_ import clr, log
-from logs.config import mailinglog
+from dotenv import load_dotenv
+
+from celery_ import clr
+
+load_dotenv('.env')
+
+SMPT_HOST = os.getenv('SMPT_HOST')
+SMTP_PORT = os.getenv('SMTP_PORT')
+SMTP_PASSWORD = os.getenv('SMTP_PASSWORD')
+SMTP_USER = os.getenv('SMTP_USER')
+
+
+def get_email_template(message, client):
+    email = EmailMessage()
+    email['Subject'] = 'Auto-Mailing'
+    email['To'] = SMTP_USER
+    email['From'] = SMTP_USER
+    email.set_content(
+        '<div>'
+        f'Сообщение пользователю с адресом: {client}'
+        '<br>'
+        f'{message}'
+        '</div>',
+        subtype='html',
+    )
+    return email
 
 
 @clr.task(name='send_message')
-def send_message(message: str, clients: list):
-    log.info('Запуск send_message.')
-    for client in clients:
-        try:
-            msg = MIMEText(message, 'html')
-            msg['Subject'] = 'I do not know'
-            msg['From'] = 'admin@mail.ru'
-            msg['To'] = client
-            port = 465
-            server = SMTP_SSL('mail.privateemail.com', port)
-            server.login('barabinr@list.ru', 'morfin532')
-            result = server.send_message(msg)
-            log.info('Сообщение отправлено')
-            server.quit()
-        except Exception as e:
-            log.info(f'Произошла ошибка {e}')
-            return e
-        log.info('Сообщения отправлены.')
-        return result
+def send_message(message, client):
+    email = get_email_template(message, client)
+    with smtplib.SMTP_SSL(SMPT_HOST, SMTP_PORT) as server:
+        server.login(SMTP_USER, SMTP_PASSWORD)
+        server.send_message(email)

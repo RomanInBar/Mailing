@@ -1,9 +1,10 @@
-from pydantic_settings import BaseSettings
-from dotenv import load_dotenv
 from typing import Optional
 
+from dotenv import load_dotenv
+from pydantic_settings import BaseSettings
 
 load_dotenv()
+
 
 class Settings(BaseSettings):
     MODE: str
@@ -16,12 +17,15 @@ class Settings(BaseSettings):
 
     @property
     def URL(self):
-        if self.MODE == 'TEST':
-            return f'{self.DRIVER}:///{self.DB_NAME}'
-        return f'{self.DRIVER}://{self.USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}'
+        if self.MODE == "TEST":
+            return f"{self.DRIVER}:///{self.DB_NAME}"
+        return (
+            f"{self.DRIVER}://{self.USER}:{self.DB_PASSWORD}"
+            f"@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+        )
 
     class DictConfig:
-        env_file = '.env'
+        env_file = ".env"
 
 
 settings = Settings()

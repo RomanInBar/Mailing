@@ -1,0 +1,16 @@
+[tool.black]
+line-length = 79
+include = '\.py'
+exclude = '''
+(
+    /(
+        migrations
+        | __pycache__
+        | \.pytest_cache
+    )/
+)
+'''
+
+[tool.isort]
+extend_skip =["*.md", "*.ini", "*.toml", "*.txt", "*.db", "*.http", "*.env", "*.log", ".gitignore"]
+extend_skip_glob = ["__pycache__/*", "pytest_cache/*", "vscode/*", "venv/*", "env/*", "migrations/*"] 

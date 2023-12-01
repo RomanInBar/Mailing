@@ -1,6 +1,4 @@
-from client.models import ClientORM, ClientTagORM
 from tag.models import TagORM
-from mailing.models import MailingORM, MailingTagORM, MessageORM
 from utils.manager import ObjectManager
 
 

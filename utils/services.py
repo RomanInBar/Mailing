@@ -1,6 +1,5 @@
-from typing import Optional
-
 from pydantic import BaseModel
+
 from utils.unitofwork import ABCUnitOfWork
 
 
@@ -32,7 +31,7 @@ async def create_object(uow: ABCUnitOfWork, data: BaseModel):
     data: BaseModel pydantic scheme - данные объекта.
     """
     data = data.model_dump()
-    tags = data.pop('tags')
+    tags = data.pop("tags")
     async with uow:
         subject = await uow.objects.create(**data)
         for tag in tags:
@@ -84,7 +83,7 @@ async def add_tag(uow: ABCUnitOfWork, obj_id: int, tags: BaseModel):
     """
     async with uow:
         subject = await uow.objects.get(id=obj_id)
-        tags = tags.model_dump().pop('name')
+        tags = tags.model_dump().pop("name")
         for tag in tags:
             tag = await uow.tags.get_or_create(name=tag)
             subject.append_tag(tag)
