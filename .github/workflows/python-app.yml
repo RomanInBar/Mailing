@@ -36,4 +36,5 @@ jobs:
         echo DRIVER=${{ secrets.DRIVER }} >> .test.env
     - name: Running tests
       run: |
+        cd ..
         pytest -vv
