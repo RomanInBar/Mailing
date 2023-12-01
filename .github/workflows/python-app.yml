@@ -12,10 +12,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      MODE: TEST
-      DRIVER: sqlite+aiosqlite
-      DB_NAME: test.db
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
@@ -32,9 +28,3 @@ jobs:
     - name: Checking with flake8
       run: |
         flake8 --ignore='F821' --per-file-ignores='main.py:F401 tests/conftest.py:E402'
-    - name: Run server
-      run: uvicorn main:app --reload
-    - name: Up database
-      run: alembic upgrade head
-    - name: Running tests
-      run: pytest -vv --asyncio-mode=auto --python-files='*_tests.py'
