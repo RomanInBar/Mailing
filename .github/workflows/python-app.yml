@@ -30,7 +30,10 @@ jobs:
         flake8 --ignore='F821' --per-file-ignores='main.py:F401 tests/conftest.py:E402'
     - name: Create env file
       run: |
-        echo "${{ secrets.ENV_FILE }}" > .env
+        touch .test.env
+        echo MODE=TEST > .test.env
+        echo DB_NAME=test.db > .test.env
+        echo DRIVER=sqlite+aiosqlite > .test.env
     - name: Running tests
       run: |
         uvicorn main:app --reload
