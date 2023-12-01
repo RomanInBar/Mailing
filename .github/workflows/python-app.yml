@@ -36,7 +36,7 @@ jobs:
         echo DRIVER=${{ secrets.DRIVER }} >> .test.env
     - name: Running server
       run: |
-        uvicorm main:app --reload
+        uvicorn main:app --reload
     - name: Creating migrations
       run: |
         alembic upgrade head
