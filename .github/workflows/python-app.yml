@@ -28,6 +28,9 @@ jobs:
     - name: Checking with flake8
       run: |
         flake8 --ignore='F821' --per-file-ignores='main.py:F401 tests/conftest.py:E402'
+    - name: Create env file
+      run: |
+        echo "${{ secrets.ENV_FILE }}" > .env
     - name: Running tests
       run: |
         uvicorn main:app --reload
