@@ -33,5 +33,5 @@ jobs:
         echo DRIVER=${{ secrets.DRIVER }} >> .test.env
     - name: Running tests
       run: |
-        git config core.ignorecase false
+        python -c "import sys; print('\n'.join(sys.path))"
         pytest -vv
