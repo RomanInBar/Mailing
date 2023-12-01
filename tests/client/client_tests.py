@@ -1,5 +1,3 @@
-import json
-
 from client.models import ClientORM
 from client.schemas import ClientUpdate
 from utils.services import (create_object, delete_object, get_all_objects,

@@ -1,5 +1,3 @@
-import pytest
-
 from mailing.models import MailingORM
 from mailing.schemas import MailingUpdate
 from utils.services import (create_object, delete_object, get_all_objects,

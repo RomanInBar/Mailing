@@ -1,9 +1,6 @@
 import asyncio
 import sys
-
-import aiohttp
 import pytest
-import uvicorn
 
 sys.path.append("c:\\Users\\Roman\\Desktop\\Project\\Mailing")
 

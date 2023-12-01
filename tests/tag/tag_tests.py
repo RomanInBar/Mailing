@@ -1,5 +1,3 @@
-import pytest
-
 from client.schemas import ClientGet
 from mailing.schemas import MailingGet
 from tag.schemas import TagCreate, TagGet
