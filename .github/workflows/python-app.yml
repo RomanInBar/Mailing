@@ -34,12 +34,6 @@ jobs:
         echo DB_NAME=${{ secrets.DB_NAME }} >> .test.env
         echo MODE=${{ secrets.MODE }} >> .test.env
         echo DRIVER=${{ secrets.DRIVER }} >> .test.env
-    - name: Running server
-      run: |
-        uvicorn main:app --reload
-    - name: Creating migrations
-      run: |
-        alembic upgrade head
     - name: Running tests
       run: |
         pytest -vv
