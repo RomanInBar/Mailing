@@ -24,8 +24,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Checking with flake8
       run: |
-        setup.cfg
-        flake8 .
+        flake8
     - name: Running tests
       run: |
         uvicorn main:app --reload
