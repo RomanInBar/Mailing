@@ -28,3 +28,18 @@ jobs:
     - name: Checking with flake8
       run: |
         flake8 --ignore='F821' --per-file-ignores='main.py:F401 tests/conftest.py:E402'
+    - name: Create .evn file
+      run: |
+        touch .test.env
+        echo DB_NAME=${{ secrets.DB_NAME }} >> .test.env
+        echo MODE=${{ secrets.MODE }} >> .test.env
+        echo DRIVER=${{ secrets.DRIVER }} >> .test.env
+    - name: Running server
+      run: |
+        uvicorm main:app --reload
+    - name: Creating migrations
+      run: |
+        alembic upgrade head
+    - name: Running tests
+      run: |
+        pytest -vv
