@@ -12,13 +12,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    services:
-      sqlite:
-        image: sqlite-latest
-        env:
-          MODE: TEST
-          DRIVER: sqlite+aiosqlite
-          DB_NAME: test.db
     env:
       MODE: TEST
       DRIVER: sqlite+aiosqlite
