@@ -33,5 +33,5 @@ jobs:
         echo DRIVER=${{ secrets.DRIVER }} >> .test.env
     - name: Running tests
       run: |
-        python -c "import sys; print('\n'.join(sys.path))"
+        python -c "import sys; sys.path.append('/home/runner/work/Mailing/Mailing/')"
         pytest -vv
