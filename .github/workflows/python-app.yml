@@ -33,6 +33,4 @@ jobs:
         echo DRIVER=${{ secrets.DRIVER }} >> .test.env
     - name: Running tests
       run: |
-        python -h
-        python -P '/home/runner/work/Mailing/Mailing'
         pytest -vv

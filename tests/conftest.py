@@ -1,8 +1,9 @@
 import asyncio
-import sys
 import pytest
+import sys
+from pathlib import Path
 
-sys.path.append("c:\\Users\\Roman\\Desktop\\Project\\Mailing")
+sys.path.append(str(Path(__file__).parents[1]))
 
 from client.models import ClientORM
 from database.config import settings
