@@ -28,9 +28,9 @@ jobs:
     - name: Create .evn file
       run: |
         touch .test.env
-        echo DB_NAME=test.db>> .test.env
-        echo MODE=${{ secrets.MODE }} >> .test.env
-        echo DRIVER=${{ secrets.DRIVER }} >> .test.env
+        echo DB_NAME=test.db >> .test.env
+        echo MODE=TEST >> .test.env
+        echo DRIVER=sqlite+aiosqlite >> .test.env
     - name: Running tests
       run: |
         pytest -vv
