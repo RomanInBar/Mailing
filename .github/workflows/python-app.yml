@@ -28,7 +28,7 @@ jobs:
     - name: Create .evn file
       run: |
         touch .test.env
-        echo DB_NAME=${{ secrets.DB_NAME }} >> .test.env
+        echo DB_NAME=test.db>> .test.env
         echo MODE=${{ secrets.MODE }} >> .test.env
         echo DRIVER=${{ secrets.DRIVER }} >> .test.env
     - name: Running tests
